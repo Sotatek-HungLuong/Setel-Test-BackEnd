@@ -2,8 +2,11 @@
   "name": "orderandpayment",
   "version": "0.0.0",
   "private": true,
+  "homepage": "https://hungbg273.github.io/demo-deploy-github-pages/",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node ./bin/www",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "dependencies": {
     "body-parser": "*",
@@ -14,6 +17,7 @@
     "express-messages": "^1.0.1",
     "express-session": "^1.15.5",
     "express-validator": "^4.2.1",
+    "gh-pages": "^3.2.3",
     "mongoose": "4.5.7",
     "mongoose-paginate-v2": "^1.4.2",
     "morgan": "~1.8.1",
