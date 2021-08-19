@@ -2,11 +2,12 @@
   "name": "orderandpayment",
   "version": "0.0.0",
   "private": true,
-  "homepage": "https://hungbg273.github.io/demo-deploy-github-pages/",
+  "homepage": "https://hungbg273.github.io",
   "scripts": {
-    "start": "node ./bin/www",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "start": "react-scripts start",
+    "build": "react-scripts build"
   },
   "dependencies": {
     "body-parser": "*",
