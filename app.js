@@ -5,13 +5,22 @@ let cookieParser = require('cookie-parser');
 let bodyParser = require('body-parser');
 let session = require('express-session')
 var mongoose = require('mongoose');
-
+const cors = require('cors');
 let OrderRouter = require('./routes/Order.js');
 let PaymentRouter = require('./routes/Payment.js');
 
 
 let app = express();
-
+app.all('*', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  next();
+});
 let server = app.listen(7000, () => {
   console.log(`Express running → PORT ${server.address().port}`);
 });
@@ -44,6 +53,7 @@ app.use(session({
   resave: true
 }))
 
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   var err = new Error('Not Found');
@@ -57,11 +67,11 @@ app.use(function (req, res, next) {
 // will print stacktrace
 if (app.get('env') === 'development') {
   app.use(function (err, req, res, next) {
-      res.status(err.status || 500);
-      res.render('error', {
-          message: err.message,
-          error: err
-      });
+    res.status(err.status || 500);
+    res.render('error', {
+      message: err.message,
+      error: err
+    });
   });
 }
 
@@ -70,8 +80,8 @@ if (app.get('env') === 'development') {
 app.use(function (err, req, res, next) {
   res.status(err.status || 500);
   res.render('error', {
-      message: err.message,
-      error: {}
+    message: err.message,
+    error: {}
   });
 });
 

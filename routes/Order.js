@@ -13,14 +13,9 @@ var Order = mongoose.model('Order',
     },
     time: {
       type: Date,
-      default: Date.now(),
+      default: new Date,
     },
-    status: {
-      type: Number,
-      min: -1,
-      max: 2,
-      default: 0
-    },
+    status: String,
     ownerId: {
       type: Number
     },
@@ -33,36 +28,14 @@ var Order = mongoose.model('Order',
     }]
   });
 
-var CounterOrder = mongoose.model('CounterOrder',
-  {
-    IdType: {
-      type: String,
-      default: "order"
-    },
-    orderId: {
-      type: Number,
-      default: 0
-    },
-  });
-
-
-function getNextIdValue(Type) {
-  var sequenceDocument = CounterOrder.findOneAndUpdate(
-    {
-      query: { IdType: Type },
-      update: { $inc: { OrderId: 1 } },
-      new: true
-    });
-  return sequenceDocument.OrderId;
-}
-
 router.get('/api/Orders', function (req, res) {
   Order.find(function (err, orders) {
     if (err) {
       console.log(err);
       res.status(500).send({ success: false, message: err });
     } else {
-      res.send(orders);
+      console.log(orders)
+      res.send(orders)
     }
   });
 });
@@ -79,21 +52,23 @@ router.get('/api/Order/:id', function (req, res) {
 })
 
 router.post('/api/Order/updateStatus', (req, res) => {
-  var modify = Order.findOneAndUpdate(
-    ({ id: req.body.id }),
-    ({ status: req.body.status }),
+  console.log(req);
+  Order.findOneAndUpdate(
+    { id: req.body.id },
+    { status: req.body.status },
     function (err, orders) {
       if (err) {
         console.log(err);
         res.status(500).send({ success: false, message: err });
       } else {
-        res.send({ success: true })
+        res.send(req.body.statusId)
       }
     });
 })
 
 router.post('/api/AddOrder', (req, res) => {
   var newOrder = new Order(req.body);
+  console.log(req.body);
   // res.render('index', { title: "Order And Payment Application" })
   // let newOrder = new Order({ id: 1, time: new Date(), status: 0, ownerId: 1, Products: [{id: 1, name: "name", description: "description", price: 1000, vol: 3}] });
   newOrder.time = new Date();
